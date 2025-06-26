@@ -1,1 +1,127 @@
-Order ID,Customer Name,Item Name,Quantity,Total Price (PKR),Order Time,Status
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Desi Food Order App</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .menu {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    .menu button {
+      padding: 10px 20px;
+      border: none;
+      background: #3498db;
+      color: white;
+      cursor: pointer;
+    }
+    .menu button.active {
+      background: #2c3e50;
+    }
+    .items {
+      display: none;
+    }
+    .items.active {
+      display: block;
+    }
+    .item {
+      background: white;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .item input {
+      width: 50px;
+      padding: 5px;
+    }
+    #submitOrder {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 30px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Desi Restaurant Order</h1>
+
+  <div class="menu">
+    <button class="active" onclick="showCategory('bbq')">BBQ</button>
+    <button onclick="showCategory('karahi')">Karahi</button>
+    <button onclick="showCategory('biryani')">Biryani</button>
+  </div>
+
+  <div id="bbq" class="items active">
+    <div class="item"><span>Chicken Tikka - Rs 350</span> <input type="number" min="0" data-name="Chicken Tikka" data-price="350"></div>
+    <div class="item"><span>Seekh Kabab - Rs 250</span> <input type="number" min="0" data-name="Seekh Kabab" data-price="250"></div>
+  </div>
+
+  <div id="karahi" class="items">
+    <div class="item"><span>Chicken Karahi - Rs 800</span> <input type="number" min="0" data-name="Chicken Karahi" data-price="800"></div>
+    <div class="item"><span>Mutton Karahi - Rs 1300</span> <input type="number" min="0" data-name="Mutton Karahi" data-price="1300"></div>
+  </div>
+
+  <div id="biryani" class="items">
+    <div class="item"><span>Chicken Biryani - Rs 300</span> <input type="number" min="0" data-name="Chicken Biryani" data-price="300"></div>
+    <div class="item"><span>Beef Biryani - Rs 320</span> <input type="number" min="0" data-name="Beef Biryani" data-price="320"></div>
+  </div>
+
+  <button id="submitOrder">Place Order</button>
+
+  <script>
+    function showCategory(id) {
+      document.querySelectorAll('.items').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.menu button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    document.getElementById('submitOrder').addEventListener('click', () => {
+      const inputs = document.querySelectorAll('input[type="number"]');
+      const order = [];
+
+      inputs.forEach(input => {
+        const qty = parseInt(input.value);
+        if (qty > 0) {
+          order.push({
+            item: input.dataset.name,
+            price: input.dataset.price,
+            quantity: qty
+          });
+        }
+      });
+
+      if (order.length === 0) {
+        alert("Please select at least one item.");
+        return;
+      }
+
+      console.log("Order Summary:", order);
+
+      // Yahan aap fetch() use kar ke Google Apps Script ko bhej sakte hain
+      alert("Order recorded in console. Backend integration next step!");
+    });
+  </script>
+
+</body>
+</html>
